@@ -5,7 +5,7 @@ from sqlalchemy import Integer, func
 from sqlalchemy.orm import DeclarativeBase, declared_attr, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 
-from config import settings
+from app.core.config import settings
 
 # Создаем асинхронный движок для работы с базой данных
 engine = create_async_engine(url=settings.DATABASE_URL)
@@ -20,9 +20,5 @@ class Base(AsyncAttrs, DeclarativeBase):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
 
-    @declared_attr
-    def __tablename__(cls) -> str:
-        """Автоматически создаем имя таблицы из имени класса"""
-        return cls.__name__.lower() + 's'
 
 uniq_str_an = Annotated[str, mapped_column(unique=True)]

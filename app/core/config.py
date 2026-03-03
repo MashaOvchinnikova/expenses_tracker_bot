@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Optional, Any
 
 from pydantic import SecretStr
@@ -33,7 +34,7 @@ class Settings(BaseSettings):
 
 
     model_config = SettingsConfigDict(
-        env_file=".env",  # загружаем из .env
+        env_file = str(Path(__file__).parent.parent.parent / ".env"),  # загружаем из .env
         env_file_encoding="utf-8",
         case_sensitive=False,  # имена переменных не чувствительны к регистру
         extra="ignore"  # игнорировать лишние переменные
